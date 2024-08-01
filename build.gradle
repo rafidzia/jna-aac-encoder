@@ -39,7 +39,7 @@ ext {
     ]
 }
 
-group 'org.sheinbergon'
+group 'com.github.rafidzia'
 version '2.1.0'
 
 repositories {
