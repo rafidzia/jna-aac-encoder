@@ -74,8 +74,6 @@ dependencies {
     benchmarkImplementation "commons-io:commons-io:${benchmarkDepVersions.commonsIO}"
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-
 test {
 
     systemProperties = ['jna.debug_load': false]
