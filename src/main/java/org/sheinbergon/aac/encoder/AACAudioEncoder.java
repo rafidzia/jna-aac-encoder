@@ -25,6 +25,8 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -34,7 +36,7 @@ import java.util.Set;
 public final class AACAudioEncoder implements AutoCloseable {
 
   @SuppressWarnings("MagicNumber")
-  private static final Set<Integer> SAMPLE_RATES = Set.copyOf(Arrays.asList(
+  private static final Set<Integer> SAMPLE_RATES = new HashSet<Integer>(Arrays.asList(
       8000,
       16000,
       22050,
@@ -105,11 +107,11 @@ public final class AACAudioEncoder implements AutoCloseable {
      * @see <a href="https://github.com/mstorsjo/fdk-aac/blob/v0.1.6/libAACenc/include/aacenc_lib.h">fdk-aac/libAACenc/include/aacenc_lib.h</a>
      */
     @SuppressWarnings("MagicNumber")
-    private static final Map<AACEncodingProfile, Float> SAMPLES_TO_BIT_RATE_RATIO = Map.ofEntries(
-        Map.entry(AACEncodingProfile.AAC_LC, 1.5f),
-        Map.entry(AACEncodingProfile.HE_AAC, 0.625f),
-        Map.entry(AACEncodingProfile.HE_AAC_V2, 0.5f)
-    );
+    private static final Map<AACEncodingProfile, Float> SAMPLES_TO_BIT_RATE_RATIO = new HashMap<AACEncodingProfile, Float>() {{
+      put(AACEncodingProfile.AAC_LC, 1.5f);
+      put(AACEncodingProfile.HE_AAC, 0.625f);
+      put(AACEncodingProfile.HE_AAC_V2, 0.5f);
+    }};
 
     // Defaults
     private boolean afterBurner = true;
