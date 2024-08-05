@@ -121,6 +121,7 @@ public final class AACAudioEncoder implements AutoCloseable {
     private int channels = 2;
     private int sampleRate = DEFAULT_SAMPLE_RATE;
     private int transmux = RAW_TRANSMUX;
+    private int bitRate = 0;
 
     private void setEncoderParams(final @Nonnull AACEncoder encoder) {
       FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_AFTERBURNER, afterBurner ? 1 : 0);
@@ -134,7 +135,7 @@ public final class AACAudioEncoder implements AutoCloseable {
     }
 
     private int deduceBitRate() {
-      return (int) (channels * sampleRate * SAMPLES_TO_BIT_RATE_RATIO.get(profile));
+      return bitRate == 0 ? (int) (channels * sampleRate * SAMPLES_TO_BIT_RATE_RATIO.get(profile)) : bitRate;
     }
 
     // TODO - add AAC profile verification
