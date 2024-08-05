@@ -48,10 +48,12 @@ public final class AACAudioEncoder implements AutoCloseable {
   // Some fdk-aac internal constants
   private static final int PARAMETRIC_STEREO_CHANNEL_COUNT = 2;
   private static final int DEFAULT_SAMPLE_RATE = 44100;
-  private static final int ADTS_TRANSMUX = 2;
+  public static final int ADTS_TRANSMUX = 2;
+  public static final int ADIF_TRANSMUX = 1;
+  public static final int RAW_TRANSMUX = 0;
   private static final int WAV_INPUT_CHANNEL_ORDER = 1;
   private static final int MAX_ENCODER_CHANNELS = 0;
-  private static final int ENCODER_MODULES_MASK = 0;
+  private static final int ENCODER_MODULES_MASK = 0;  
 
   // This buffer just needs to be big enough to contain the encoded data
   private static final int OUT_BUFFER_SIZE = 20480;
@@ -118,12 +120,13 @@ public final class AACAudioEncoder implements AutoCloseable {
     private AACEncodingProfile profile = AACEncodingProfile.AAC_LC;
     private int channels = 2;
     private int sampleRate = DEFAULT_SAMPLE_RATE;
+    private int transmux = RAW_TRANSMUX;
 
     private void setEncoderParams(final @Nonnull AACEncoder encoder) {
       FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_AFTERBURNER, afterBurner ? 1 : 0);
       FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_SAMPLERATE, sampleRate);
       FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_BITRATE, deduceBitRate());
-      FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_TRANSMUX, ADTS_TRANSMUX);
+      FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_TRANSMUX, transmux);
       FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_AOT, profile.aot());
       FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_CHANNELORDER, WAV_INPUT_CHANNEL_ORDER);
       FdkAACLibFacade.setEncoderParam(encoder, AACEncParam.AACENC_CHANNELMODE,
